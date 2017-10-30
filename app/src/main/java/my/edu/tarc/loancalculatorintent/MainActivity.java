@@ -25,23 +25,21 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this,ResultActivity.class);
 
         try {
-            double vp, dp, ir, mp, total_interest, total_loan;
-            int repayment;
+            double vp, dp, ir, mp;
+            int lp;
             vp = Double.parseDouble(editTextVP.getText().toString());
             dp = Double.parseDouble(editTextD.getText().toString());
             ir = Double.parseDouble(editTextIR.getText().toString()) / 100;
-            repayment = Integer.parseInt(editTextLP.getText().toString());
+            lp = Integer.parseInt(editTextLP.getText().toString());
             if (ir > 1.0)
                 Toast.makeText(getApplication().getBaseContext(), "Interest Rate should not more than 100!", Toast.LENGTH_SHORT).show();
             else if (vp < dp)
                 Toast.makeText(getApplication().getBaseContext(), "Vehicle price should be larger than downpayment!", Toast.LENGTH_SHORT).show();
             else {
-                total_interest = (vp - dp) * ir * (repayment / 12);
-                total_loan = (vp - dp) + total_interest;
-                mp = total_loan / repayment;
+                mp = ((vp-dp)+((vp-dp)*ir*lp))/ lp/12;
                 intent.putExtra("Downpayment",dp);
                 intent.putExtra("InterestRate",ir);
-                intent.putExtra("LoanPeriod", repayment);
+                intent.putExtra("LoanPeriod", lp);
                 intent.putExtra("MonthlyRepayment", mp);
                 startActivity(intent);
             }
